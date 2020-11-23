@@ -1,0 +1,119 @@
+<html>
+<style>
+    .gameBox {
+        height: 20%;
+        width: 10%;
+        margin: 10px;
+        text-decoration: none;
+        border: none;
+        font-size: 100px;
+    }
+
+    .reset{
+        border: none;
+        color: red;
+        height: 5%;
+    }
+
+    body{
+        background-color: grey;
+    }
+
+
+</style>
+<body>
+
+
+<div class="game-board">
+
+    <center>
+        <h3 id="status">Lets start the game : O's Turn</h3>
+        <button class="reset" onclick="window.location.reload()">Reset Game</button>
+    </center>
+
+    <hr>
+    <center>
+        <div id="gameArea">
+
+        </div>
+        <button class="gameBox" onclick="moveMade(event ,0)">-</button>
+        <button class="gameBox" onclick="moveMade(event ,1)">-</button>
+        <button class="gameBox" onclick="moveMade(event ,2)">-</button>
+        <br>
+        <button class="gameBox" onclick="moveMade(event ,3)">-</button>
+        <button class="gameBox" onclick="moveMade(event ,4)">-</button>
+        <button class="gameBox" onclick="moveMade(event ,5)">-</button>
+
+        <br>
+        <button class="gameBox" onclick="moveMade(event ,6)">-</button>
+        <button class="gameBox" onclick="moveMade(event ,7)">-</button>
+        <button class="gameBox" onclick="moveMade(event ,8)">-</button>
+        <br>
+
+    </center>
+
+
+</div>
+</body>
+
+<script>
+    let player = "O";
+    let status = document.querySelector("#status");
+    let board = ["", "", "", "", "", "", "", "", ""];
+    let gameOver = false;
+    const winningConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    const togglePlayer = () => {
+        player = player === "O" ? "X" : "O";
+        status.innerText = player + "'s turn"
+        // console.log(board)
+    }
+
+    const checkWinningLogic = () => {
+
+        // console.log(board);
+        for (let i = 0; i < winningConditions.length; i++) {
+            let a = winningConditions[i][0];
+            let b = winningConditions[i][1];
+            let c = winningConditions[i][2];
+
+            // console.log(board  , a , b ,c)
+
+            if (board[a] === "" || board[b] === "" || board[c] === "") {
+                continue;
+            }
+            else if (board[a] === board[b] && board[b] === board[c]) {
+                gameOver = true;
+                status.innerText = `Player ${player} won the game !!!!!`;
+                return true
+            }
+
+        }
+
+        return false;
+
+    }
+
+    const moveMade = (e, n) => {
+        if (e.target.innerText === "-" && !gameOver) {
+            e.target.innerText = player;
+            board[n] = player;
+
+            if(!checkWinningLogic()){
+            togglePlayer();}
+        }
+    }
+
+
+</script>
+
+</html>
